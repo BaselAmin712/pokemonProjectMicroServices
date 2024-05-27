@@ -1,16 +1,14 @@
 from fastapi import FastAPI
 
-from models import mysql_database
+from models.mysql_database import Mysql_database
 
-mySql=mysql_database.Mysql_database()
+mySql=Mysql_database()
 server = FastAPI()
 
 #test the server is up
 @server.get("/test")
 def test():
 
-    cursor = mySql.connetion.cursor()
-    cursor.execute("SELECT * FROM test")
-    result = cursor.fetchall()
-    print(result)
+    x=Mysql_database()
+    x.get_pokemon_by_type("fire")
     return "The server is working properly!"
