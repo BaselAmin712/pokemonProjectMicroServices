@@ -9,7 +9,7 @@ class Mysql_database(Database):
             'password': '',
             'host': 'localhost',
             'port': '3306',
-            'database': 'pokemons'
+            'database': 'db_pokemon'
         }
         self.connetion= self.connect()
 
