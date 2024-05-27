@@ -12,6 +12,7 @@ class Mysql_database(Database):
             'port': '3306',
             'database': 'db_pokemon'
         }
+
         self.connetion= self.connect()
 
 
@@ -32,9 +33,18 @@ class Mysql_database(Database):
     def add_pokemon(self,data):
         pass
 
+
     def get_pokemon_by_type(self,type:str):
         query = f"SELECT p.name FROM pokemons p join pokemonstypes pt on  p.id = pt.pokemon_id where pt.type_name = '{type}'"
-        self.__execute_query(query)
+        return self.__execute_query(query)
+
+    def get_pokemon_by_name(self, name: str):
+        query = f"""SELECT * FROM pokemons WHERE name = '{name}'"""
+        return self.__execute_query(query)
+    def get_pokemon_by_id(self, id: int):
+        query = f"""SELECT * FROM pokemons WHERE id = '{id}'"""
+        return self.__execute_query(query)
+
 
 
     def get_pokemon_by_trainer(self,trainer: str):
