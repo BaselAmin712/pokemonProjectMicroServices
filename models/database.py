@@ -3,10 +3,6 @@ from abc import ABC, abstractmethod
 class Database(ABC):
 
     @abstractmethod
-    def config_db(self):
-        pass
-
-    @abstractmethod
     def connect(self):
         pass
 

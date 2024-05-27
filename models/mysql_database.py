@@ -9,7 +9,7 @@ class Mysql_database(Database):
             'user': 'root',
             'password': '',
             'host': 'localhost',
-            'port': '3307',
+            'port': '3306',
             'database': 'db_pokemon'
         }
         self.connetion= self.connect()
@@ -21,13 +21,12 @@ class Mysql_database(Database):
 
 
 
-
-
-    def config_db(self):
-        pass
-
-    def connetion(self):
-        pass
+    #private function to execute query to the database
+    def __execute_query(self, query):
+        mydb=self.connect()
+        cursor = mydb.cursor()
+        cursor.execute(query)
+        return cursor.fetchall()
 
     #private function to execute query to the database
     def __execute_query(self, query):
