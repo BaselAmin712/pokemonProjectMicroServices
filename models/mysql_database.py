@@ -20,14 +20,6 @@ class Mysql_database(Database):
 
 
 
-
-
-    def config_db(self):
-        pass
-
-    def connetion(self):
-        pass
-
     def add_pokemon(self,data):
         pass
 
