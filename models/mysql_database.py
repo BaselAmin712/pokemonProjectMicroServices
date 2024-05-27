@@ -28,12 +28,6 @@ class Mysql_database(Database):
         cursor.execute(query)
         return cursor.fetchall()
 
-    #private function to execute query to the database
-    def __execute_query(self, query):
-        mydb=self.connect()
-        cursor = mydb.cursor()
-        cursor.execute(query)
-        return cursor.fetchall()
 
     def add_pokemon(self,data):
         pass
