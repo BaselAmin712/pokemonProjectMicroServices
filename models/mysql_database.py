@@ -29,7 +29,7 @@ class Mysql_database(Database):
         return cursor.fetchall()
 
     def add_pokemon(self, data):
-        query = f"""INSERT INTO pokemons (id, name, height, weight) VALUES ({data[0]}, {data[1]}, {data[2]}, {data[3]})"""
+        query = f"INSERT INTO pokemons (id, name, height, weight) VALUES ({data[0]},'{data[1]}', {data[2]}, {data[3]});"
         try:
             self.__execute_query(query, commit=True)
             return True
@@ -49,12 +49,11 @@ class Mysql_database(Database):
         query = f"""SELECT * FROM pokemons WHERE id = '{id}'"""
         return self.__execute_query(query)
 
-    def add_pokemonsTypes(self, pokemon_id: int, type: str):
-        type_query = """INSERT INTO pokemonsTypes (type_name, pokemon_id) VALUES (%s, %s)"""
-        mydb = self.connect()
-        cursor = mydb.cursor()
-        cursor.execute(type_query, (type,pokemon_id))
-        mydb.commit()
+    def add_pokemonsTypes(self, pokemon_id: int, types: list):
+        for type in types:
+            query = f"""INSERT INTO pokemonsTypes (type_name, pokemon_id) VALUES ('{type}', {pokemon_id})"""
+            self.__execute_query(query, commit=True)
+        return True
 
 
 
