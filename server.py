@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 
-from controllers import info_routes, update_routes
+from controllers import pokemon, trainer
 from models.mysql_database import Mysql_database
 
 mySql=Mysql_database()
 server = FastAPI()
-server.include_router(info_routes.router)
-server.include_router(update_routes.router)
+server.include_router(pokemon.router)
+server.include_router(trainer.router)
 
 #test the server is up
 @server.get("/test")
