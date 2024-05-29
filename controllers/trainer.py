@@ -8,10 +8,6 @@ router = APIRouter(
 )
 pokemon_db = Mysql_database() ## func return pokemon_db
 
-@router.get("/get-by-trainer")
-def get_by_trainer()-> list:
-    pass
-
 
 @router.get("/get-pokemon-trainer")
 def get_pokemon_trainer()-> list:

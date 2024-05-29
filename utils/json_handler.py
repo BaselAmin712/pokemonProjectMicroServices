@@ -2,15 +2,17 @@ import json
 import threading
 import requests
 
+from constants import pokemonApi_url, json_url
+
+
 def correct_pokemon_data(pokemon,memo):
     """
-
     :param pokemon:
     :param memo:
     :return:
     """
     name = pokemon["name"]
-    url = f"https://pokeapi.co/api/v2/pokemon/{name}"
+    url=f"{pokemonApi_url}{name}"
     response = requests.get(url).json()
     tmp=[]
     for type in response["types"]:
@@ -21,11 +23,11 @@ def correct_pokemon_data(pokemon,memo):
 
 
 def read_json():
-    with open("../Db_Json/pokemons_data (1).json", 'r') as file:
+    with open(json_url, 'r') as file:
         data = json.load(file)
     return data
 def write_to_json(data):
-    with open("../Db_Json/pokemons_data (1).json", 'w') as file:
+    with open(json_url, 'w') as file:
         json.dump(data, file)
 
 
