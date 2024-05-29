@@ -32,8 +32,19 @@ class Mysql_database(Database):
     def get_trainers_of_pokemon(self,pokemon):
         pass
 
-    def delete_pokemon(self,pokemon):
-        pass
+    def delete_pokemon(self,pokemon_name, trainer_name):
+        my_db = self.connect()
+        cursor = my_db.cursor()
+        pokemon_id = self.get_pokemon_id_by_name(pokemon_name, cursor)
+        trainer_id = self.get_trainer_id_by_name(trainer_name, cursor)
+        query = "DELETE FROM team WHERE trainer_id = %s AND pokemon_id = %s;"
+        cursor.execute(query, (trainer_id, pokemon_id))
+
+    def get_trainer_id_by_name(self, trainer_name, cursor):
+        return cursor.execute("SELECT id FROM trainers WHERE name = '%s';", (trainer_name))
+
+    def get_pokemon_id_by_name(self, pokemon_name, cursor):
+        return cursor.execute("SELECT id FROM pokemons WHERE name = '%s';", (pokemon_name))
 
     def add_pokemon_to_trainer(self, pokemon, trainer):
         pass

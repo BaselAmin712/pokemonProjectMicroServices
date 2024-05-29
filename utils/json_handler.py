@@ -21,11 +21,11 @@ def correct_pokemon_data(pokemon,memo):
 
 
 def read_json():
-    with open("../Db_Json/pokemons_data (1).json", 'r') as file:
+    with open("./Db_Json/pokemons_data (1).json", 'r') as file:
         data = json.load(file)
     return data
 def write_to_json(data):
-    with open("../Db_Json/pokemons_data (1).json", 'w') as file:
+    with open("./Db_Json/pokemons_data (1).json", 'w') as file:
         json.dump(data, file)
 
 
