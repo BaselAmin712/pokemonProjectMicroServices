@@ -40,9 +40,18 @@ def create_pokemon(pokemon: Pokemon, pokemon_db=Depends(get_db)):
         return {"message": "Pokemon added successfully."}
 
 
-@router.delete("/delete-pokemon")
-def delete_pokemon():
-    pass
+@router.delete("/trainer/{trainer_name}/pokemon/{pokemon_name}" )
+def delete_pokemon_from_trainer(trainer_name: str, pokemon_name: str, pokemon_db=Depends(get_db)):
+    try:
+        
+        pokemon_db.delete_pokemon( pokemon_name,trainer_name)
+        
+        return {"message": "Pokemon deleted successfully"}
+    except ValueError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="Server error")
+
 
 
 @router.put("/evolve-pokemon")

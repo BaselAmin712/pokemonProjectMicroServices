@@ -15,7 +15,7 @@ class Mysql_database(Database):
             'password': '',
             'host': 'localhost',
             'port': '3306',
-            'database': 'db_pokemon2'
+            'database': 'db_pokemon'
         }
 
         self.connetion = self.connect()
@@ -95,8 +95,12 @@ class Mysql_database(Database):
         query = f"SELECT t.name FROM trainers t join team on  t.id = team.trainer_id join pokemons p on p.id = team.pokemon_id  where p.name = '{pokemon}'"
         self.__execute_query(query)
 
-    def delete_pokemon(self, pokemon):
-        pass
+    def delete_pokemon(self,pokemon_name, trainer_name):
+        pokemon_id = self.__execute_query(f"SELECT id FROM pokemons WHERE name = '{pokemon_name}';")[0][0]
+        trainer_id = self.__execute_query(f"SELECT id FROM trainers WHERE name = '{trainer_name}';")[0][0]
+        query = f"DELETE FROM team WHERE trainer_id = {trainer_id} AND pokemon_id = {pokemon_id};"
+        self.__execute_query(query,True)
+
 
     def add_pokemon_to_trainer(self, pokemon, trainer):
         pass

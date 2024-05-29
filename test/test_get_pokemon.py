@@ -10,12 +10,12 @@ client = TestClient(server)
 
 
 def test_getPokemon_bad_id():
-    response = client.get("pokemons/pokemon/11111111")
+    response = client.get("pokemons/11111111")
     assert response.status_code == 404
 
 
 def test_pokemon_id_found():
-    response = client.get("pokemons/pokemon/15")
+    response = client.get("pokemons/15")
     assert response.status_code == 200
     assert response.json() == [15, "beedrill", 10, 295]
 

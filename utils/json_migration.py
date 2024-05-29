@@ -1,3 +1,8 @@
+import sys
+import os
+# Remove these two lines after finishing the development of thid module
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
 from models import mysql_database
 from models.mysql_database import get_db
 from utils.json_handler import read_json
