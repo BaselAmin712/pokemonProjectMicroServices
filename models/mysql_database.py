@@ -68,7 +68,8 @@ class Mysql_database(Database):
         query = f"""INSERT INTO types (name) VALUES ('{type}')"""
         self.__execute_query(query, commit=True)
         return True
-    def add_trainer_to_TrainerTable(self, name: str,town:str):
+
+    def add_trainer_to_TrainerTable(self, name: str, town: str):
         query = f"""INSERT INTO trainers (name,town) VALUES ('{name}','{town}')"""
         self.__execute_query(query, commit=True)
         return True
@@ -77,9 +78,18 @@ class Mysql_database(Database):
         query = "SELECT * FROM trainers "
 
         return self.__execute_query(query)
+
     def get_pokemon_by_trainer(self, trainer: str):
-        query = f"SELECT p.name FROM pokemons p join team on  p.id = team.pokemon_id join trainers t on t.id = team.trainer_id where t.name = '{trainer}'"
-        self.__execute_query(query)
+        query = f"""
+        SELECT p.name
+        FROM pokemons p
+        JOIN team ON p.id = team.pokemon_id
+        JOIN trainers t ON t.id = team.trainer_id
+        WHERE t.name = '{trainer}';
+        """
+        pokemons=self.__execute_query(query)
+        pokemons = [list(inner_list) for inner_list in pokemons]
+        return pokemons
 
     def get_trainers_of_pokemon(self, pokemon: str):
         query = f"SELECT t.name FROM trainers t join team on  t.id = team.trainer_id join pokemons p on p.id = team.pokemon_id  where p.name = '{pokemon}'"
