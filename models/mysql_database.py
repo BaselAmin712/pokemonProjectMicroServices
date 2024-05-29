@@ -2,6 +2,7 @@ import requests
 from models.database import Database
 import mysql.connector
 
+POKEMON_DETAILS_URL = "https://pokeapi.co/api/v2/pokemon/"
 
 class Mysql_database(Database):
     def __init__(self):
@@ -9,7 +10,7 @@ class Mysql_database(Database):
             'user': 'root',
             'password': '',
             'host': 'localhost',
-            'port': '3306',
+            'port': '3307',
             'database': 'db_pokemon'
         }
 
@@ -27,6 +28,26 @@ class Mysql_database(Database):
         if commit:
             mydb.commit()
         return cursor.fetchall()
+    
+    def __get_evolve_chain(self, pokemon):
+        response = requests.get(POKEMON_DETAILS_URL+pokemon).json()
+        species_url = response["species"]["url"]
+        response = requests.get(species_url).json()
+        evolution_chain = response["evolution_chain"]["url"]
+        response = requests.get(evolution_chain).json()
+        return response["chain"]
+    
+    def get_next_evolve_pokemon_name(self, pokemon):
+        evolve_chain = self.__get_evolve_chain(pokemon)
+        
+
+        while(evolve_chain["species"]["name"] != pokemon):
+                evolve_chain=evolve_chain["evolves_to"][0]
+        try:
+            evolve_chain["evolves_to"][0]["species"]["name"]
+        except IndexError:
+            return None
+   
 
     def add_pokemon(self, data):
         query = f"INSERT INTO pokemons (id, name, height, weight) VALUES ({data[0]},'{data[1]}', {data[2]}, {data[3]});"
@@ -75,19 +96,7 @@ class Mysql_database(Database):
         pass
 
     # need to continue
-    def evolve(self, pokemon):
-        url = f"https://pokeapi.co/api/v2/pokemon/{pokemon}"
-        response = requests.get(url).json()
-        species_url = response["species"]["url"]
-        response = requests.get(species_url).json()
-        evolution_chain = response["evolution_chain"]["url"]
-        response = requests.get(evolution_chain).json()
-        x = response["chain"]
+    def evolve(self, pokemon, trainer):
+       pass
 
-        while (True):
-            print(x["species"]["name"])
-            if x["species"]["name"] == pokemon:
-                print(x["species"]["name"])
-                break
-            else:
-                x = x["evolves_to"][0]
+        

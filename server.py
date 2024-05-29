@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 
 from controllers import pokemon, trainer
 from models.mysql_database import Mysql_database
@@ -13,5 +14,8 @@ server.include_router(trainer.router)
 def test():
 
     x=Mysql_database()
-    x.get_pokemon_by_type("fire")
+    y=x.get_evolve_pokemon_name("venusaur")
+    print(y)
     return "The server is working properly!"
+
+
