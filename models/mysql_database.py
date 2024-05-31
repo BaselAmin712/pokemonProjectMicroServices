@@ -15,7 +15,7 @@ class Mysql_database(Database):
             'user': 'root',
             'password': '',
             'host': 'localhost',
-            'port': '3307',
+            'port': '3306',
             'database': 'db_pokemon'
         }
 
@@ -80,6 +80,10 @@ class Mysql_database(Database):
 
     def get_pokemon_by_id(self, id: int):
         query = f"""SELECT * FROM pokemons WHERE id = '{id}'"""
+        return self.__execute_query(query)
+
+    def get_trainer_by_id(self, id: int):
+        query = f"""SELECT * FROM trainers WHERE id = '{id}'"""
         return self.__execute_query(query)
 
     def add_pokemonsTypes(self, pokemon_id: int, types: list):
