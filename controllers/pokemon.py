@@ -15,6 +15,12 @@ router = APIRouter(
 
 @router.get("/{pokemon_id}")
 def get_pokemon_by_id(pokemon_id: int, pokemon_db=Depends(get_db)):
+    """
+    retrieve a pokemon by its id
+    :param pokemon_id: the id of pokemon to retrieve
+    :param pokemon_db: Dependency to fetch the database.
+    :return: pokemon data
+    """
     pokemons = pokemon_db.get_pokemon_by_id(pokemon_id)
     if not pokemons:
         raise HTTPException(status_code=404, detail="No Pokémon found with the given ID")
@@ -23,6 +29,12 @@ def get_pokemon_by_id(pokemon_id: int, pokemon_db=Depends(get_db)):
 
 @router.post("/")
 def create_pokemon(pokemon: Pokemon, pokemon_db=Depends(get_db)):
+    """
+
+    :param pokemon:  the pokemon data to be created
+    :param pokemon_db:  Dependency to fetch the database.
+    :return:
+    """
     existing_pokemon = pokemon_db.get_pokemon_by_id(pokemon.id)
     if existing_pokemon:
         raise HTTPException(status_code=409, detail="Pokemon found with the given id")
@@ -42,6 +54,13 @@ def create_pokemon(pokemon: Pokemon, pokemon_db=Depends(get_db)):
 
 @router.delete("/trainer/{trainer_name}/pokemon/{pokemon_name}" )
 def delete_pokemon_from_trainer(trainer_name: str, pokemon_name: str, pokemon_db=Depends(get_db)):
+    """
+    delete a pokemon owned by trainer
+    :param trainer_name: the name of trainer who own a pokemon to be deleted..
+    :param pokemon_name: the name of pokemon to be deleted
+    :param pokemon_db: Dependency to fetch the database.
+    :return:
+    """
     try:
         
         pokemon_db.delete_pokemon( pokemon_name,trainer_name)
@@ -55,7 +74,15 @@ def delete_pokemon_from_trainer(trainer_name: str, pokemon_name: str, pokemon_db
 
 
 @router.put("/evolve-pokemon")
+
 def evolve_pokemon(pokemon:str,trainer:str, pokemon_db=Depends(get_db)):
+    """
+
+    :param pokemon: the name of pokemon to be envolved.
+    :param trainer: the name of trainer who own the pokemon
+    :param pokemon_db:  Dependency to fetch the database.
+    :return:
+    """
     pokemon_id = pokemon_db.get_pokemon_by_name(pokemon)[0][0]
     if not pokemon_id:
         raise HTTPException(status_code=404, detail="No Pokémon found with the given name")
@@ -77,7 +104,13 @@ def evolve_pokemon(pokemon:str,trainer:str, pokemon_db=Depends(get_db)):
 
 @router.get("/")
 def get_pokemon_with_filtering(trainer_name:Optional[str]=Query(None), pokemon_type: Optional[str] = Query(None), pokemon_db=Depends(get_db)):
-
+    """
+    retreive pokemon with optinal filetering by trainer_name or pokemon type
+    :param trainer_name: the name of trainer to filter by
+    :param pokemon_type: the type of pokemon to filter by
+    :param pokemon_db: Dependency to fetch the database.
+    :return:
+    """
     if trainer_name:
         pokemons=pokemon_db.get_pokemon_by_trainer(trainer_name)
         if not pokemons:
