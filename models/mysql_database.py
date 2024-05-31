@@ -84,6 +84,10 @@ class Mysql_database(Database):
         query = f"""SELECT * FROM pokemons WHERE id = '{id}'"""
         return self.__execute_query(query)
 
+    def get_trainer_by_id(self, id: int):
+        query = f"""SELECT * FROM trainers WHERE id = '{id}'"""
+        return self.__execute_query(query)
+
     def add_pokemonsTypes(self, pokemon_id: int, types: list):
         for type in types:
             query = f"""INSERT INTO pokemonsTypes (type_name, pokemon_id) VALUES ('{type}', {pokemon_id})"""
