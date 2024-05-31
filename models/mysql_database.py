@@ -15,7 +15,7 @@ class Mysql_database(Database):
             'user': 'root',
             'password': '',
             'host': 'localhost',
-            'port': '3307',
+            'port': '3306',
             'database': 'db_pokemon'
         }
 
@@ -77,7 +77,9 @@ class Mysql_database(Database):
         query = f"""SELECT * FROM trainers WHERE name = '{name}'"""
         return self.__execute_query(query)
 
-
+    def get_trainer_by_id(self, id: int):
+        query = f"""SELECT * FROM trainers WHERE id = '{id}'"""
+        return self.__execute_query(query)
     def get_pokemon_by_id(self, id: int):
         query = f"""SELECT * FROM pokemons WHERE id = '{id}'"""
         return self.__execute_query(query)
@@ -117,7 +119,7 @@ class Mysql_database(Database):
 
     def get_trainers_of_pokemon(self, pokemon: str):
         query = f"SELECT t.name FROM trainers t join team on  t.id = team.trainer_id join pokemons p on p.id = team.pokemon_id  where p.name = '{pokemon}'"
-        self.__execute_query(query)
+        return self.__execute_query(query)
 
     def check_trainer_and_pokemon(self, pokemon_id: int, trainer_id:int):
         query = f"SELECT * from team where trainer_id={trainer_id} and pokemon_id={pokemon_id}"
@@ -133,7 +135,7 @@ class Mysql_database(Database):
         
 
 
-    def add_pokemon_to_trainer(self, pokemon_id, trainer_id):
+    def add_pokemon_to_trainer(self, trainer_id,pokemon_id):
         query = f"""INSERT INTO team (trainer_id,pokemon_id) VALUES ('{trainer_id}', {pokemon_id})"""
         self.__execute_query(query, commit=True)
         return True
