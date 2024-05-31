@@ -1,15 +1,14 @@
 from fastapi import FastAPI
+import uvicorn
 
-from controllers import info_routes
+from controllers import pokemon, trainer
 from models.mysql_database import Mysql_database
 
-mySql=Mysql_database()
 server = FastAPI()
-server.include_router(info_routes.router)
+server.include_router(pokemon.router)
+server.include_router(trainer.router)
+
 #test the server is up
 @server.get("/test")
 def test():
-
-    x=Mysql_database()
-    x.get_pokemon_by_type("fire")
-    return "The server is working properly!"
+    return {"msg":"server is working properly"}
