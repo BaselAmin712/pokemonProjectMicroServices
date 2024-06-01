@@ -137,9 +137,3 @@ class Mysql_database(Database):
         query = f"""INSERT INTO team (trainer_id,pokemon_id) VALUES ('{trainer_id}', {pokemon_id})"""
         self.__execute_query(query, commit=True)
         return True
-
-    # need to continue
-    def evolve(self, pokemon, trainer):
-       pass
-
-        
