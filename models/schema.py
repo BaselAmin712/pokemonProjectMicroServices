@@ -8,3 +8,4 @@ class Pokemon(BaseModel):
     height: float
     weight: float
     types: List[str] = []
+
