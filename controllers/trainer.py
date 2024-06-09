@@ -6,7 +6,6 @@ router = APIRouter(
     prefix='/trainers',
     tags=['This is all  requests for trainers resources ']
 )
-pokemon_db = Mysql_database() ## func return pokemon_db
 
 
 @router.get("/{pokemon_name}")
@@ -46,12 +45,20 @@ def get_pokemon_trainer(pokemon_name:str,pokemon_db=Depends(get_db))-> list:
 
 @router.put("/add-pokemon/{pokemon_id}/-to-trainer/{trainer_id}")
 def add_pokemon_to_trainer(pokemon_id: int, trainer_id: int, pokemon_db=Depends(get_db)):
+    """
+    :param trainer_id: the id of trainer who will own the pokemon
+    :param pokemon_id: the Id of pokemon to be added
+    :param pokemon_db: Dependency to fetch the db
+    :return: None
+    """
     pokemons = pokemon_db.get_pokemon_by_id(pokemon_id)
     if not pokemons:
         raise HTTPException(status_code=404, detail="No Pokémon found with the given ID")
-    pokemons = pokemon_db.get_trainer_by_id(pokemon_id)
-    if not pokemons:
+    trainer = pokemon_db.get_trainer_by_id(pokemon_id)
+    if not trainer:
         raise HTTPException(status_code=404, detail="No trainer found with the given ID")
+    if not pokemon_db.check_trainer_and_pokemon(pokemon_id,trainer_id):
+        raise HTTPException(status_code=400, detail="Pokémon is not in trainer hand")
     if pokemon_db.add_pokemon_to_trainer(pokemon_id, trainer_id):
         print("Pokemon added successfully to trainer.")
         return {"message": "Pokemon added successfully to trainer."}

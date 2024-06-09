@@ -29,7 +29,3 @@ class Database(ABC):
     @abstractmethod
     def add_pokemon_to_trainer(self, pokemon, trainer):
         pass
-
-    @abstractmethod
-    def evolve(self, pokemon):
-        pass

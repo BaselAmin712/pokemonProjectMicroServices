@@ -90,13 +90,15 @@ def evolve_pokemon(pokemon:str,trainer:str, pokemon_db=Depends(get_db)):
     if not trainer_id:
         raise HTTPException(status_code=404, detail="No Trainer found with the given name")
     if not pokemon_db.check_trainer_and_pokemon(pokemon_id,trainer_id):
-        raise HTTPException(status_code=404, detail="Pokémon is not in trainer hand")
-    evolved_pokemon = pokemon_db.get_next_evolve_pokemon_name(pokemon)
+        raise HTTPException(status_code=400, detail="Pokémon is not in trainer hand")
+    evolved_pokemon = pokemon_db.get_next_evolve_pokemon_name(pokemon)   
     if not evolved_pokemon:
-        raise HTTPException(status_code=404, detail="Pokémon has reach max evoloution")
+        raise HTTPException(status_code=403, detail="Pokémon has reach max evoloution")
     evolved_pokemon_id = pokemon_db.get_pokemon_by_name(evolved_pokemon)[0][0]
+    if pokemon_db.check_trainer_and_pokemon(evolved_pokemon_id,trainer_id):
+        raise HTTPException(status_code=400, detail="can't evolve Pokémon, the trainer has the evolved pokemon in hand")
     pokemon_db.delete_pokemon(pokemon,trainer)
-    pokemon_evolved = pokemon_db.add_pokemon_to_trainer(evolved_pokemon_id,trainer_id)
+    pokemon_evolved = pokemon_db.add_pokemon_to_trainer(trainer_id,evolved_pokemon_id)
     if pokemon_evolved:
         print("Pokemon evolved successfully.")
         return {"message": "Pokemon evolved successfully."}
