@@ -2,7 +2,7 @@ from fastapi import FastAPI
 import uvicorn
 
 from controllers import pokemon, trainer
-from models.mysql_database import Mysql_database
+from models.mysql_database import get_db
 
 server = FastAPI()
 server.include_router(pokemon.router)

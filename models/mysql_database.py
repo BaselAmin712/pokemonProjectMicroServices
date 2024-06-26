@@ -14,9 +14,9 @@ class Mysql_database(Database):
     def __init__(self):
         self.config = {
             'user': 'root',
-            'password': '',
-            'host': 'localhost',
-            'port': '3307',
+            'password': 'root1',
+            'host': 'db',
+            'port': '3306',
             'database': 'db_pokemon'
         }
 
