@@ -1,2 +1,5 @@
 sudo docker-compose up --build
 sudo docker exec -it pokemonprojectmicroservices-mysql-1 mysql -uroot -p
+sudo mongo --host localhost --port 27017
+mongo mongodb://localhost:27017/pokemon_images
+mongosh mongodb://localhost:27017/

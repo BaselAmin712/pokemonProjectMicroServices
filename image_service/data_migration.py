@@ -1,4 +1,5 @@
 import json
+import os
 import requests
 from pymongo import MongoClient
 from gridfs import GridFS
@@ -11,7 +12,10 @@ logger = logging.getLogger(__name__)
 
 # Load data from JSON file
 try:
-    with open("../Db_Json/pokemons_data (1).json", 'r') as file:
+    # with open("C:/pokemons_data.json", 'r') as file:
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    file_path = os.path.join(script_dir, "pokemons_data.json")
+    with open(file_path, 'r') as file:
         data = json.load(file)
     logger.info("Loaded data from pokemons.json")
 except FileNotFoundError:
