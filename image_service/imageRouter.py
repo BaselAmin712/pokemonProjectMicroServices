@@ -34,25 +34,6 @@ async def upload_image(file: UploadFile = File(...)):
         logger.error(f"Error uploading image: {e}")
         raise HTTPException(status_code=500, detail=f"Error uploading image: {str(e)}")
 
-# @image_router.get("/images/{pokemon_name}")
-# async def get_image(pokemon_name: str):
-#     # try:
-#     #     file = fs.get(ObjectId(file_id))
-#     #     return {"filename": file.filename, "content": file.read()}
-#     # except Exception as e:
-#     #     logger.error(f"Error retrieving image: {e}")
-#     #     raise HTTPException(status_code=404, detail=f"Image not found: {str(e)}")
-#     # try:
-#     #     file = fs.find_one({"filename": pokemon_name})
-#     #     if file:
-#     #         return file.read()
-#     #     return None
-#     # except Exception as e:
-#     #     raise e
-#     data = db.fs.files.find_one({"filename": pokemon_name})
-#     file_id = data['_id']
-#     output_data = fs.get(file_id).read()
-#     return output_data
 @image_router.get("/images/{pokemon_name}")
 async def get_image(pokemon_name: str):
     try:

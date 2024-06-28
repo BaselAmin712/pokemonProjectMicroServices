@@ -19,32 +19,6 @@
 #       DATABASE_URL: mysql+mysqlconnector://root:root1@db/db_pokemon
 # volumes:
 #   db_data:
-# version: "3.9"
-
-# services:
-#   mongo:
-#     image: mongo:latest
-#     container_name: mongodb
-#     ports:
-#       - "27017:27017"
-#     volumes:
-#       - mongo-data:/data/db
-
-#   image_service:
-#     build:
-#       context: ./image_service
-#     container_name: image_service
-#     depends_on:
-#       - mongo
-#     ports:
-#       - "8001:8001"
-#     volumes:
-#       - ./image_service:/app
-#     environment:
-#       MONGO_URI: "mongodb://mongo:27017"
-
-# volumes:
-#   mongo-data:
 version: "3.9"
 services:
   mongodb:
@@ -60,6 +34,22 @@ services:
       - "8001:8001"
     depends_on:
       - mongodb
-
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root1
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+  app2:
+    build: ./pokemon_service
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: mysql+mysqlconnector://root:root1@db/db_pokemon
 volumes:
   mongo-data:
+  db_data:
